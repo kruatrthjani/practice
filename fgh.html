@@ -1,0 +1,93 @@
+
+</html>
+<head>
+    <script>
+    var search_terms = ['apple', 'apple watch', 'apple macbook', 'apple macbook pro', 'iphone', 'iphone 12'];
+
+    // Function to find matching autocomplete suggestions
+    function autocompleteMatch(searchQuery) {
+      if (searchQuery == '') {
+        return [];
+      }
+      var reg = new RegExp(searchQuery, 'i'); // 'i' flag for case-insensitive matching
+      return search_terms.filter(function(term) {
+        return term.match(reg);
+      });
+    }
+    
+    // Function to display autocomplete suggestions
+    function showResults(searchQuery) {
+      var resultDiv = document.getElementById('result');
+      
+      // Clear previous suggestions
+      resultDiv.innerHTML = '';
+      
+      // If search query is empty, do not display suggestions
+      if (searchQuery === '') {
+        return;
+      }
+    
+      // Find matching autocomplete suggestions
+      var terms = autocompleteMatch(searchQuery);
+      
+      // Generate HTML for suggestions
+      var list = '<ul>';
+      for (var i = 0; i < terms.length; i++) {
+        list += '<li>' + terms[i] + '</li>';
+      }
+      list += '</ul>';
+    
+      // Display suggestions
+      resultDiv.innerHTML = list;
+    }
+    
+    // Add event listener to input for keyup event
+    document.getElementById('q').addEventListener('keyup', function() {
+      var searchQuery = this.value.trim(); // Get the value of the input field
+      showResults(searchQuery); // Call showResults function with search query as parameter
+    });
+    function makeRangeIterator(start = 0, end = Infinity, step = 1) {
+  let nextIndex = start;
+  let iterationCount = 0;
+
+  const rangeIterator = {
+    next() {
+      let result;
+      if (nextIndex < end) {
+        result = { value: nextIndex, done: false };
+        nextIndex += step;
+        iterationCount++;
+        return result;
+      }
+      return { value: iterationCount, done: true };
+    },
+  };
+  return rangeIterator;
+}
+const numbers = [1, 2, 3, 4, 5, 5, 8, 1, 4];
+
+function countOccurrences(numbers) {
+  const counts = {}; // Initialize an empty object to store counts
+
+  for (let number of numbers) {
+    if (counts.number) {
+      counts[number]++; // Increment count if number already exists
+    } else {
+      counts[number] = 1; // Initialize count to 1 for new numbers
+    }
+  }
+
+  return counts;
+}
+
+const result = countOccurrences(numbers);
+console.log(result);
+    </script>
+</head>
+<body>
+<form autocomplete="off"><input type="text" name="q" id="q" onKeyUp="showResults(this.value)" />
+<div id="result"></div>
+</form>
+<button onclick="window.print()">Print this page</button>
+</body>
+</html>
